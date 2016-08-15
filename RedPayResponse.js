@@ -1,4 +1,4 @@
-class RedPayResponse (transferStatus, responseCode, transactionId, authCode, cardLevel, cardBrand, cardType, processorCode, app, account, cardHolderName, amount, timeStamp, text, clientIP, avsCode) {
+function RedPayResponse (transferStatus, responseCode, transactionId, authCode, cardLevel, cardBrand, cardType, processorCode, app, account, cardHolderName, amount, timeStamp, text, clientIP, avsCode) {
     this.transferStatus = transferStatus;
     this.responseCode = responseCode;
     this.transactionId = transactionId;
@@ -16,3 +16,6 @@ class RedPayResponse (transferStatus, responseCode, transactionId, authCode, car
     this.clientIP = clientIP;
     this.avsCode = avsCode;
 }
+
+var response = new RedPayResponse("t", "a", "w");
+console.log("Response: ", response);
