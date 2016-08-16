@@ -48,19 +48,23 @@ function CreditCardProcessor(config) {
   }
 }
 
-var chargeParams = {amount: 500, account: 1212};
+var chargeParams = {amount: 500, account: 4011361100000012, cardHolderName: "John Doe", "avsZip": "22222", "expDate": "012017", "cvv": "123"};
 var voidParams = {transactionId: "DEMO.123"};
 var refundParams = {amount: 500, transactionId: "DEMO.123",};
 
-var config = new Config("DEMO", "vZ9cvj3lONTEGWmuzTJ9tdjmDoEUEb7dPkdMdXyP1/4=", "ASDFaA");
+var config = new Config("DEMO", "vZ9cvj3lONTEGWmuzTJ9tdjmDoEUEb7dPkdMdXyP1/4=", "https://redpaydemo.azurewebsites.net/card");
 var card = new CreditCardProcessor(config);
-console.log("card: ", card);
+//console.log("card: ", card);
 
-var someCharge = card.Charge(chargeParams);
-console.log("charge: ", someCharge);
+card.Charge(chargeParams)
+.then(function(response) {
+  console.log("response: ", response);
+});
 
-var someVoid = card.Void(voidParams);
-console.log("void: ", someVoid);
 
-var someRefund = card.Refund(refundParams);
-console.log("refund: ", someRefund);
+//
+// var someVoid = card.Void(voidParams);
+// console.log("void: ", someVoid);
+//
+// var someRefund = card.Refund(refundParams);
+// console.log("refund: ", someRefund);

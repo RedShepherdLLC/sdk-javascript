@@ -24,8 +24,11 @@ function RedPayRequest({action, amount, account, currency, expmmyyyy, cvv, signa
   // this.transactionId = transactionId;
   var somePacket = new Packet(config.app, arguments[0], "45");
   var someStringPacket = JSON.stringify(somePacket);
-  return somePacket;
-
+  console.log("packet", someStringPacket);
+  return Post(someStringPacket)
+  .then(function(response) {
+    return response
+  });
 
   this.create = function() {
     var somePacket = new Packet(config.app, args, "45");
