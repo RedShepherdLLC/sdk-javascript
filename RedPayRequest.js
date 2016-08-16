@@ -1,7 +1,7 @@
-function RedPayRequest(action, amount, account, cardHolderName, expmmyyyy, cvv,
-avsZip, currency, method, retryCount, avsAddress1, avsAddress2, avsCity,
-cardHolderEmail, cardHolderPhone, employeeRefNum, customerRefNum, orderRefNum,
-terminalRefNum) {
+function RedPayRequest({action, amount, account, currency, expmmyyyy, cvv, signatureData,
+ cardHolderName, method, authCode, retryCount, track1Data, track2Data, avsAddress1,
+ avsAddress2, avsCity, avsZip, cardHolderEmail, cardHolderPhone, employeeRefNum,
+ customerRefNum, orderRefNum, terminalRefNum, transactionId}) {
   this.action = action;
   this.amount = amount;
   this.account = account;
@@ -21,7 +21,11 @@ terminalRefNum) {
   this.customerRefNum = customerRefNum;
   this.orderRefNum = orderRefNum;
   this.terminalRefNum = terminalRefNum;
-}
+  this.transactionId = transactionId;
 
-var theRequest = new RedPayRequest("A", 5001, "411", "John Doe", "042018", "344", "04233");
-console.log("theRequest: ", theRequest);
+  this.create = function() {
+    var somePacket = new Packet(config.app, this, "45");
+    var someStringPacket = JSON.stringify(somePacket);
+    return somePacket;
+  }
+}

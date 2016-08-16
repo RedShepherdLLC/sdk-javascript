@@ -16,6 +16,3 @@ function RedPayResponse (transferStatus, responseCode, transactionId, authCode, 
     this.clientIP = clientIP;
     this.avsCode = avsCode;
 }
-
-var response = new RedPayResponse("t", "a", "w");
-console.log("Response: ", response);
