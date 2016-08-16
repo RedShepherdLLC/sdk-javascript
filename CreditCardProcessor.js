@@ -1,5 +1,5 @@
 function CreditCardProcessor(config) {
-  this.Charge = function({amount, account, currency="USD", expDate, cvv, signatureData,
+  this.Charge = function({amount=0, account, currency="USD", expDate, cvv, signatureData,
    cardHolderName, method, authCode, retryCount, track1Data, track2Data, avsAddress1,
    avsAddress2, avsCity, avsZip, cardHolderEmail, cardHolderPhone, employeeRefNum,
    customerRefNum, orderRefNum, terminalRefNum}) {
@@ -34,19 +34,17 @@ function CreditCardProcessor(config) {
     employeeRefNum: employeeRefNum, customerRefNum: customerRefNum, orderRefNum: orderRefNum,
     terminalRefNum: terminalRefNum};
 
-    return new RedPayRequest(params);
+    return RedPayRequest(params);
   }
 
   this.Void = function({transactionId}) {
     var params = {action: "V", transactionId: transactionId};
-
-    return new RedPayRequest(params);
+    return RedPayRequest(params);
   }
 
   this.Refund = function({transactionId, amount}) {
     var params = {action: "R", transactionId: transactionId, amount: amount};
-
-    return new RedPayRequest(params);
+    return RedPayRequest(params);
   }
 }
 
@@ -54,15 +52,15 @@ var chargeParams = {amount: 500, account: 1212};
 var voidParams = {transactionId: "DEMO.123"};
 var refundParams = {amount: 500, transactionId: "DEMO.123",};
 
-var config = new Config("DEMO", "ASDFA", "ASDFaA");
-var card = new CreditCardProcessor(config)
+var config = new Config("DEMO", "vZ9cvj3lONTEGWmuzTJ9tdjmDoEUEb7dPkdMdXyP1/4=", "ASDFaA");
+var card = new CreditCardProcessor(config);
 console.log("card: ", card);
 
-var someCharge = card.Charge(chargeParams).create();
+var someCharge = card.Charge(chargeParams);
 console.log("charge: ", someCharge);
 
-var someVoid = card.Void(voidParams).create();
+var someVoid = card.Void(voidParams);
 console.log("void: ", someVoid);
 
-var someRefund = card.Refund(refundParams).create();
+var someRefund = card.Refund(refundParams);
 console.log("refund: ", someRefund);
