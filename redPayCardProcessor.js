@@ -97,7 +97,7 @@ function Config (app, rsaPublicKey, url) {
     this.url = url;
 }
 
-function CreditCardProcessor(config) {
+function RedPayCardProcessor(config) {
   var config = config;
 
   this.Charge = function({
