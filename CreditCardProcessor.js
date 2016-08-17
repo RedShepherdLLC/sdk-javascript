@@ -166,30 +166,6 @@ function CreditCardProcessor(config) {
     });
   }
 
-  this.Void = function({transactionId}) {
-    var RedPayRequest = arguments[0];
-    RedPayRequest.action = "V";
-
-    var packet = new Packet(config.app, RedPayRequest);
-
-    return Post(packet)
-    .then(function(response) {
-      return response
-    });
-  }
-
-  this.Refund = function({transactionId, amount}) {
-    var RedPayRequest = arguments[0];
-    RedPayRequest.action = "R";
-
-    var packet = new Packet(config.app, RedPayRequest);
-
-    return Post(packet)
-    .then(function(response) {
-      return response
-    });
-  }
-
   // TODO: Change this when encryption is set up (remind Khalid)
   function Packet(sessionId, app, aesData, iv) {
     this.sessionId = sessionId;
