@@ -142,9 +142,11 @@ function RedPayCardProcessor(config) {
     return Post(requestPacket1).then(function(responsePacket1) {
 
       //console.log("responsePacket1", responsePacket1);
+      if (responsePacket1 == null) {
+        return null;
+      }
 
       var sessionId = responsePacket1.sessionId;
-      //console.log("sessionId", sessionId);
 
       // Pass in the packet
       var RedPayRequest = args;
@@ -158,15 +160,21 @@ function RedPayCardProcessor(config) {
       var requestPacket2 = new Packet(sessionId, config.app, aesCipherText, randomIVBase64String);
       //console.log("requestPacket2", requestPacket2);
 
+      console.log("Sending packet...");
+
       return Post(requestPacket2).then(function(responsePacket2) {
         //console.log("responsePacket2", responsePacket2);
-          var RedPayResponse = aesCryptography.decrypt(aesCryptography.getBytes(randomAesKeyBase64String),aesCryptography.getBytes(responsePacket2.iv),responsePacket2.aesData);
-          return RedPayResponse;
+        if (responsePacket2 == null) {
+          return null;
+        }
+
+        var RedPayResponse = aesCryptography.decrypt(aesCryptography.getBytes(randomAesKeyBase64String),aesCryptography.getBytes(responsePacket2.iv),responsePacket2.aesData);
+        RedPayResponse = JSON.parse(RedPayResponse);
+        return RedPayResponse;
       });
     });
   }
 
-  // TODO: Change this when encryption is set up (remind Khalid)
   function Packet(sessionId, app, aesData, iv) {
     this.sessionId = sessionId;
     this.app = app;
@@ -175,10 +183,23 @@ function RedPayCardProcessor(config) {
   }
 
   function Post(packet) {
-    //console.log("Packet", packet);
-    return $.post(config.url, packet)
-    .then(function (response) {
-      return response;
-    });
+
+    return $.ajax({
+      url: config.url,
+      data: packet,
+      method: "post",
+      dataType: "json",
+      error: function(){
+          // called when timeout is reached
+          console.log("Session timed out");
+          return null;
+      },
+      success: function(response){
+          //do something
+          return response;
+      },
+      timeout: 40000 // sets timeout to 40 seconds
+    })
+
   }
 }
